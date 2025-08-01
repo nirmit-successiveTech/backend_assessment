@@ -1,24 +1,27 @@
+
+
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv"
+import { router } from "./router/studentRoutes";
+import { dbConnect } from "./utils/db";
+import { HandleError } from "./middleware/errorHandler";
 
-import { dbConnection } from "./utils/db";
-
+dotenv.config();
 const app = express();
-dotenv.config()
+
 
 app.use(express.json());
+app.use("/api",router);
 
-app.get("/user",(req:Request,res:Response,next:NextFunction)=>{
-  console.log("calling user")
+
+app.use(HandleError.errorHandler)
+
+
+dbConnect().then(()=>{
+    app.listen(7000,()=>{
+    console.log("server starts at 7000");
+})
 })
 
-const port = process.env.PORT;
-console.log("port:",port);
-
-dbConnection().then(() => {
-  app.listen(7000, () => {
-    console.log("server is running at 7000");
-  });
-});
 
 export default app;
