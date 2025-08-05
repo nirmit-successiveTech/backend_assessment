@@ -17,12 +17,14 @@ export class Student{
             })
         } catch (error) {
             console.log("error adding student")
+            next(error)
+
         }
     }
 
     getById=async(req:Request,res:Response,next:NextFunction)=>{
         try {
-            console.log("calling getbyud");
+            console.log("calling getbyid");
             const {id} = req.params;
             const getStudent = await createStudent.findById(id);
             if(getStudent){
@@ -33,14 +35,21 @@ export class Student{
             }
         } catch (error) {
             console.log("cannot get by id");
+            next(error)
+
         }
     }
 
     getStudent=async(req:Request,res:Response,next:NextFunction)=>{
         try {
-            console.log("calling get student")
+            const allStudent = await createStudent.find().limit(5).sort({age:-1}).skip(2);
+            res.status(200).json({
+                success:true,
+                data:allStudent
+            })
         } catch (error) {
-            console.log("cannot do it")
+            console.log("cannot do it");
+            next(error)
         }
     }
 
@@ -54,6 +63,8 @@ export class Student{
             })
         } catch (error) {
             console.log("cannot update")
+            next(error)
+
         }
     }
 
@@ -68,6 +79,8 @@ export class Student{
             })
         } catch (error) {
             console.log("cannot delete student")
+            next(error)
+
         }
     }
 
@@ -84,6 +97,8 @@ export class Student{
             })
         } catch (error) {
             console.log("cannot call signup")
+            next(error)
+
         }
     }
 
@@ -100,6 +115,8 @@ export class Student{
             }
         } catch (error) {
             console.log("cannot login")
+            next(error)
+
         }
     }
 
@@ -118,6 +135,8 @@ export class Student{
             })
         } catch (error) {
             console.log('error')
+            next(error)
+
         }
     }
 
@@ -129,13 +148,12 @@ export class Student{
                 data:sortdata
             })
         } catch (error) {
-            console.log('error baate')
+            console.log('some error')
+            next(error)
+
         }
     }
 
-
-
-    
 
 
 }
