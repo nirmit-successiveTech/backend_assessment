@@ -17,5 +17,9 @@ router.put("/delete/:id",verifyUser.AuthUser,student.deleteStudent);
 router.post("/signup",student.signUp);          // unprotected
 router.post("/login",student.login)              // unprotected
 
+router.get("/sort-data",student.findsort)
+router.get("/findmaxage",student.findmaxage)
+
+
 export {router}
 
