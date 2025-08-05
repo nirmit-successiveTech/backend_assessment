@@ -1,8 +1,8 @@
-import { Request,Response } from "express";
+import { NextFunction, Request,Response } from "express";
 
 
 export class HandleError{
-    public static errorHandler=(err:Error & {statusCode:number},req:Request,res:Response)=>{
+    public static errorHandler=(err:Error & {statusCode:number},req:Request,res:Response,next:NextFunction)=>{
         const errorCode = err.statusCode || 500;
         const errorMessage = err.message || "Cannot process request";
 

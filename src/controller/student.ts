@@ -23,7 +23,7 @@ export class Student{
     getById=async(req:Request,res:Response,next:NextFunction)=>{
         try {
             console.log("calling getbyud");
-            const {id} = req.body;
+            const {id} = req.params;
             const getStudent = await createStudent.findById(id);
             if(getStudent){
                 return res.status(200).json({
@@ -46,7 +46,7 @@ export class Student{
 
     updateStudent=async(req:Request,res:Response,next:NextFunction)=>{
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             const studentUpdate = await createStudent.findByIdAndUpdate(id,{name:"john wick"},{new:true});
             return res.status(200).json({
                 success:true,
@@ -59,7 +59,7 @@ export class Student{
 
     deleteStudent=async(req:Request,res:Response,next:NextFunction)=>{
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             const deleteStudent = await createStudent.findByIdAndDelete(id);
             return res.status(200).json({
                 success:true,
@@ -102,6 +102,40 @@ export class Student{
             console.log("cannot login")
         }
     }
+
+    findmaxage=async(req:Request,res:Response,next:NextFunction)=>{
+        try {
+            console.log('findmaxage')
+            const maxAge = await createStudent.aggregate([{
+                $match:{
+                    age:{
+                        $gte:25,$lte:90
+                    }
+                }
+            }])
+            return res.json({
+                data:maxAge
+            })
+        } catch (error) {
+            console.log('error')
+        }
+    }
+
+
+    findsort=async(req:Request,res:Response,next:NextFunction)=>{
+        try {
+            const sortdata = await createStudent.find().sort({age:-1}).limit(5)
+            return res.json({
+                data:sortdata
+            })
+        } catch (error) {
+            console.log('error baate')
+        }
+    }
+
+
+
+    
 
 
 }
